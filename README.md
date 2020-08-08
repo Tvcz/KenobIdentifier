@@ -7,4 +7,4 @@ If you have any comments, concerns, or questions, feel free to reach out - easie
 Credit to the developers of the [face-recognition](https://pypi.org/project/face-recognition/) and [praw](https://pypi.org/project/praw/) python libraries for their awesome work, as well as to [sentdex](https://www.youtube.com/c/sentdex "sentdex's YouTube channel") for the sample code we used to implement the face-recognition library.
 
 Feel free to fork this code to use for whatever (though I don't know what you could possibly use this for?) or modify it in any way.
-If you come up with any improvements you'd like to share, definetly shoot us a pull request. ;D
+If you come up with any notable improvements, definetly shoot us a pull request. ;D
