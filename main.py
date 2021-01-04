@@ -1,3 +1,4 @@
+import signal
 import praw
 import requests
 import random
@@ -7,15 +8,21 @@ from socket import gaierror
 from time import sleep
 from PIL import UnidentifiedImageError
 
+
+class TimeoutException(Exception):
+    pass
+
 class RedditBot: 
     def __init__(self):
 #        self.repeat_count = 0
-        
-        self.reddit = praw.Reddit(client_id="CLIENT_ID", client_secret="CLIENT_SECRET", user_agent="Linux:KenobIdentifier:v0.1.3 (by u/tvcz and u/valiantseal)", username="ObIdentifier", password="PASSWORD")
+
+        self.reddit = praw.Reddit(client_id="CLIENT_ID", client_secret="CLIENT_SECRET", user_agent="Linux:KenobIdentifier:v0.1.4 (by u/tvcz and u/valiantseal)", username="ObIdentifier", password="PASSWORD")
 
         self.prequel_memes = self.reddit.subreddit("prequelmemes")
         with open("submission_record.csv", "r+") as submission_record:
             self.submission_record = submission_record.read().split(",")
+
+        signal.signal(signal.SIGALRM, self.timeout_handler);
 
     def find_images(self):
         print("\n\nScanning top 1000 posts of hot...\n")
@@ -39,7 +46,13 @@ class RedditBot:
             image = face_recognition.load_image_file(image_data.raw)
             print("\n", submission.id, submission.url, "ValidImage")
             if ai.scan_image(image):
-                self.make_comment(submission)
+                signal.alarm(30)
+                try:
+                    self.make_comment(submission)
+                except TimeoutException:
+                    pass
+                else:
+                    signal.alarm(0)
             self.submission_record.append(submission.id)
             self.save_submission_record()
 
@@ -60,6 +73,8 @@ class RedditBot:
         with open("submission_record.csv", "w+") as submission_record:
             submission_record.write(",".join(self.submission_record))
 
+    def timeout_handler(signum, frame):
+        raise TimeoutException
 
 redditbot = RedditBot()
 while True:
