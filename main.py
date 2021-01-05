@@ -1,5 +1,6 @@
 import signal
 import praw
+import prawcore
 import requests
 import random
 import face_recognition
@@ -83,9 +84,11 @@ while True:
         redditbot.find_images()
     except praw.exceptions.RedditAPIException:
         print("\n", "Error: praw.exceptions.RedditAPIException")
-        sleep(360)
+        sleep(480)
     except gaierror:
         print("\n", "Error: socket.GaiError")
         sleep(30)
-
+    except prawcore.exceptions.RequestException:
+        print("\n", "Error: prawcore.exceptions.RequestException")
+        sleep(480)
     
