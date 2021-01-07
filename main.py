@@ -74,7 +74,7 @@ class RedditBot:
         with open("submission_record.csv", "w+") as submission_record:
             submission_record.write(",".join(self.submission_record))
 
-    def timeout_handler(signum, frame):
+    def timeout_handler(self, signum, frame):
         raise TimeoutException
 
 redditbot = RedditBot()
