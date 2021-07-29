@@ -77,11 +77,11 @@ class RedditBot:
     def timeout_handler(self, signum, frame):
         raise TimeoutException
 
-redditbot = RedditBot()
+reddit_bot = RedditBot()
 while True:
     try:
         print("\nMain loop (re)starting...")
-        redditbot.find_images()
+        reddit_bot.find_images()
     except praw.exceptions.RedditAPIException:
         print("\n", "Error: praw.exceptions.RedditAPIException")
         sleep(480)
